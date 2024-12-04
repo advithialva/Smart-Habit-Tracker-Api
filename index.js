@@ -129,32 +129,21 @@ server.on('upgrade', (request, socket, head) => {
 });
 
 wss.on('connection', (ws) => {
-  console.log('New WebSocket client connected');
   ws.send('Connected to the Smart Habit Tracker!');
 
-  // Reminder logic after WebSocket connection
-  const today = new Date().toISOString().split('T')[0];  // Get today's date
-  console.log("Checking habits for today:", today);  // Debug log for the current date
+  const sendHabitReminders = () => {
+    const today = new Date().toISOString().split('T')[0];
 
-  // Find the habit "Drink 8 glasses of water"
-  const drinkWaterHabit = habits.find((habit) => habit.name === "Drink 8 glasses of water");
-  
-  if (!drinkWaterHabit) {
-    console.log("Habit not found: Drink 8 glasses of water");
-    return;
-  }
+    habits.forEach((habit) => {
+      const habitCompletedToday = habit.logs.some((log) => log.date === today && log.completed);
 
-  console.log("Found habit:", drinkWaterHabit);  // Debug log to confirm habit is found
+      if (!habitCompletedToday) {
+        const reminderMessage = `Reminder: Don't forget to complete your habit - ${habit.name}`;
+        broadcast(reminderMessage); // Broadcast to all WebSocket clients
+      }
+    });
+  };
 
-  // Check if the habit has been completed today
-  const habitCompletedToday = drinkWaterHabit.logs.some((log) => log.date === today && log.completed);
-  console.log("Habit completed today?", habitCompletedToday);  // Log the status of completion
-
-  if (!habitCompletedToday) {
-    const reminderMessage = `Reminder: Don't forget to complete your habit - Drink 8 glasses of water`;
-    console.log("Sending reminder:", reminderMessage);  // Log reminder message before sending
-    ws.send(reminderMessage);  // Send the reminder to the client
-  } else {
-    console.log("Habit completed today, no reminder sent.");
-  }
+  // Schedule daily reminder at 9 AM
+  cron.schedule('0 9 * * *', sendHabitReminders); 
 });
