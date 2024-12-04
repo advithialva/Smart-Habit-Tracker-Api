@@ -1,10 +1,10 @@
-# Smart Habit Tracker
+# Smart Habit Tracker API
 
 ## Description
 
-The **Smart Habit Tracker** is a web application designed to help users track their daily habits, mark them as complete, and receive real-time reminders via WebSockets for any habits they haven't completed yet. This application allows users to set goals for daily habits and view their weekly progress.
+The **Smart Habit Tracker API** is a backend service that helps users track their daily habits, mark them as complete, and receive real-time reminders via WebSockets for any habits they haven't completed. The API allows users to set daily goals for their habits and monitor their progress on a weekly basis.
 
-Key Features include:
+#### Key Features include:
 
 - Add, edit, and delete habits.
 - Mark habits as completed for the day.
@@ -31,7 +31,102 @@ To run this project locally, you need:
 
 - [Node.js](https://nodejs.org/en/) installed on your machine.
 - A text editor such as [VSCode](https://code.visualstudio.com/).
-- - [Postman] for testing the API.
+- [Postman](https://www.postman.com/) for API testing.
+
+## API Endpoints
+
+### 1. **POST /habits**
+- **Purpose**: Create a new habit.
+- **Request Body Example**:
+  ```json
+  {
+    "name": "Read 20 pages",
+    "daily_goal": 20
+  }
+- **Response**:
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "id": 1,
+        "name": "Read 20 pages",
+        "daily_goal": 20,
+        "logs": []
+      }
+    }
+
+### 2. **PUT /habits/:id**
+- **Purpose**: Mark a habit as completed for today.
+- **Response**:
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "id": 1,
+      "name": "Read 20 pages",
+      "daily_goal": 20,
+      "logs": [
+        {
+          "date": "2024-12-04",
+          "completed": true
+        }
+      ]
+    }
+  }
+  
+### 3. **GET /habits**
+- **Purpose**: Retrieve a list of all habits.
+- **Response**:
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": 1,
+        "name": "Read 20 pages",
+        "daily_goal": 20,
+        "logs": []
+      },
+      {
+        "id": 2,
+        "name": "Drink 8 glasses of water",
+        "daily_goal": 8,
+        "logs": []
+      }
+    ]
+  }
+
+### 4. **GET /habits/report**
+- **Purpose**: Retrieve a weekly report of habit completion.
+- **Response**:
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": 1,
+        "name": "Read 20 pages",
+        "completedDays": 3,
+        "totalDays": 7
+      },
+      {
+        "id": 2,
+        "name": "Drink 8 glasses of water",
+        "completedDays": 5,
+        "totalDays": 7
+      }
+    ]
+  }
+
+## WebSocket Integration
+
+The application integrates WebSockets to send real-time reminders if the user has not completed their habits. Every day at 9:00 AM, users will receive notifications to remind them about any incomplete habits.
+
+ ### WebSocket Server
+
+Once the WebSocket connection is established, users receive a welcome message:
+    
+    Reminder: Don't forget to complete your habit - [Habit Name]
 
 ## Installation
 
