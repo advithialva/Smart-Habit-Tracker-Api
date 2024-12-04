@@ -122,11 +122,13 @@ To run this project locally, you need:
 
 The application integrates WebSockets to send real-time reminders if the user has not completed their habits. Every day at 9:00 AM, users will receive notifications to remind them about any incomplete habits.
 
+     Reminder: Don't forget to complete your habit - [Habit Name]
+
  ### WebSocket Server
 
 Once the WebSocket connection is established, users receive a welcome message:
-    
-    Reminder: Don't forget to complete your habit - [Habit Name]
+
+    Connected to the Smart Habit Tracker!
 
 ## Installation
 
