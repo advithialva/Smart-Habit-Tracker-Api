@@ -31,6 +31,7 @@ To run this project locally, you need:
 
 - [Node.js](https://nodejs.org/en/) installed on your machine.
 - A text editor such as [VSCode](https://code.visualstudio.com/).
+- - [Postman] for testing the API.
 
 ## Installation
 
