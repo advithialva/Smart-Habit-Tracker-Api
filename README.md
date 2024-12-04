@@ -135,8 +135,8 @@ Follow these steps to set up the project locally:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/smart-habit-tracker.git
-   cd smart-habit-tracker
+   git clone https://github.com/yourusername/smart-habit-tracker-api.git
+   cd smart-habit-tracker-api
 
 2. Install the required dependencies:
 
